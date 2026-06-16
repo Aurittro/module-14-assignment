@@ -1,62 +1,135 @@
+exports.createUser = (req, res) => {
+    res.json({message:"User created successfully"});
+};
+
+exports.readUser = (req, res) => {
+    res.json({message:"User read successfully"});
+};
+
+exports.updateUser = (req, res) => {
+    res.json({message:"User updated successfully"});
+};
+
+exports.deleteUser = (req, res) => {
+    res.json({message:"User deleted successfully"});
+};
+
+exports.getAllUsers = (req, res) => {
+    res.json({message:"All users fetched successfully"});
+};
+
+exports.getUserById = (req, res) => {
+    res.json({message:"User fetched by ID"});
+};
+
+exports.loginUser = (req, res) => {
+    res.json({message:"User login successful"});
+};
+
+exports.logoutUser = (req, res) => {
+    res.json({message:"User logout successful"});
+};
+
+exports.changePassword = (req, res) => {
+    res.json({message:"Password changed successfully"});
+};
+
+exports.updateProfile = (req, res) => {
+    res.json({message:"User profile updated successfully"});
+};
+
+exports.makeAdmin = (req, res) => {
+    res.json({message:"User made admin successfully"});
+};
+
+exports.removeAdmin = (req, res) => {
+    res.json({message:"Admin role removed successfully"});
+};
+
+exports.searchUsers = (req, res) => {
+    res.json({message:"User search completed successfully"});
+};
+
+exports.filterUsers = (req, res) => {
+    res.json({message:"User filter completed successfully"});
+};
+
+exports.blockUser = (req, res) => {
+    res.json({message:"User blocked successfully"});
+};
+
+exports.unblockUser = (req, res) => {
+    res.json({message:"User unblocked successfully"});
+};
+
+exports.verifyEmail = (req, res) => {
+    res.json({message:"Email verified successfully"});
+};
+
+exports.resendVerification = (req, res) => {
+    res.json({message:"Verification email resent"});
+};
+
+exports.uploadProfilePicture = (req, res) => {
+    res.json({message:"Profile picture uploaded successfully"});
+};
+
+exports.deleteAccount = (req, res) => {
+    res.json({message:"Account deleted successfully"});
+};
 const express = require("express");
+const router = express.Router();
+const userController = require("../controllers/userController");
 
+router.post("/create-user", userController.createUser);
+router.get("/read-user", userController.readUser);
+router.put("/update-user", userController.updateUser);
+router.delete("/delete-user", userController.deleteUser);
+
+router.get("/all-users", userController.getAllUsers);
+router.get("/user/:id", userController.getUserById);
+
+router.post("/login", userController.loginUser);
+router.post("/logout", userController.logoutUser);
+
+router.put("/change-password", userController.changePassword);
+router.put("/update-profile", userController.updateProfile);
+
+router.put("/make-admin/:id", userController.makeAdmin);
+router.put("/remove-admin/:id", userController.removeAdmin);
+
+router.get("/search", userController.searchUsers);
+router.get("/filter", userController.filterUsers);
+
+router.patch("/block-user/:id", userController.blockUser);
+router.patch("/unblock-user/:id", userController.unblockUser);
+
+router.post("/verify-email", userController.verifyEmail);
+router.post("/resend-verification", userController.resendVerification);
+
+router.post(
+  "/upload-profile-picture",
+  userController.uploadProfilePicture
+);
+
+router.delete("/delete-account", userController.deleteAccount);
+
+module.exports = router;
+const express = require("express");
 const app = express();
-const PORT = 5000;
 
-// Middleware
 app.use(express.json());
 
-// 1. Root Route
-app.get("/", (req, res) => {
-  res.send("Server Running Successfully");
-});
+const userRoutes = require("./routes/userRoutes");
 
-// 2. Simple String Response
-app.get("/welcome", (req, res) => {
-  res.send("Welcome to Express Learning");
-});
+app.use("/api/v1/users", userRoutes);
 
-// 2. JSON Response
-app.get("/student", (req, res) => {
-  res.json({
-    name: "John",
-    course: "MERN Stack",
-    batch: 13
-  });
-});
+module.exports = app;
+const app = require("./src/app");
 
-// 3. GET Request With URL Query
-app.get("/search", (req, res) => {
-  res.json(req.query);
-});
+const PORT = 5000;
 
-// 4. Simple POST Request
-app.post("/register", (req, res) => {
-  res.json({
-    message: "Registration Successful",
-    data: req.body
-  });
-});
-
-// 4. POST Request With URL Query
-app.post("/product", (req, res) => {
-  res.json({
-    productId: req.query.id
-  });
-});
-
-// 4. POST Request With Header Properties
-app.post("/login", (req, res) => {
-  const username = req.headers.username;
-  const password = req.headers.password;
-
-  res.json({
-    username,
-    password
-  });
-});
-
-// Server Start
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});GET http://localhost:5000/welcome
+    console.log(`Server running on port ${PORT}`);
+});
+
